@@ -66,20 +66,53 @@ builder.add_edge("tools", "model")
 
 graph = builder.compile()
 
-# Test
-input_data = {
-    "messages": [
-        HumanMessage("combien font 2+2?")
-    ]
-}
+def chat_interactive():
+    """Interface de chat interactive simple"""
+    print("\n" + "="*50)
+    print("🤖 AGENT LOCAL - CHAT INTERACTIF")
+    print("="*50)
+    print("Tapez 'quit' ou 'exit' pour quitter")
+    print("-"*50)
+    
+    while True:
+        try:
+            # Demander la question à l'utilisateur
+            question = input("\n💬 Votre question: ").strip()
+            
+            # Vérifier si l'utilisateur veut quitter
+            if question.lower() in ['quit', 'exit', 'q']:
+                print("👋 Au revoir!")
+                break
+            
+            # Ignorer les entrées vides
+            if not question:
+                continue
+            
+            # Préparer l'input pour le graphe
+            input_data = {
+                "messages": [HumanMessage(question)]
+            }
+            
+            print(f"\n🔄 Traitement de: {question}")
+            logger.info("🚀 Exécution...")
+            
+            # Exécuter le graphe
+            result = graph.invoke(input_data)
+            
+            # Afficher la réponse
+            print("\n" + "="*50)
+            print("🤖 RÉPONSE:")
+            print("="*50)
+            print(result["messages"][-1].content)
+            print("="*50)
+            
+        except KeyboardInterrupt:
+            print("\n\n👋 Au revoir!")
+            break
+        except Exception as e:
+            print(f"\n❌ Erreur: {e}")
 
-logger.info("🚀 Exécution...")
-result = graph.invoke(input_data)
-
-print("\n" + "="*50)
-print("RÉPONSE:")
-print("="*50)
-print(result["messages"][-1].content)
-print("="*50)
+if __name__ == "__main__":
+    chat_interactive()
 
 
