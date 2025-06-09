@@ -1,0 +1,6 @@
+# Here are the libraries we'll write: 
+langchain 
+langgraph 
+langchain-ollama
+langchain_community
+duckduckgo-search
