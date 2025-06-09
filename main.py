@@ -1,5 +1,7 @@
 from langchain_core.tools import tool
 import ast
+import logging
+import os
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_ollama import ChatOllama
 from typing import TypedDict, Annotated
@@ -8,68 +10,76 @@ from langgraph.graph import StateGraph, START
 from langgraph.prebuilt import ToolNode, tools_condition
 from langchain_core.messages import HumanMessage
 
-# Create a calculator function
+# Configuration simple des logs
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Désactiver LangSmith pour éviter les erreurs d'auth
+os.environ["LANGCHAIN_TRACING_V2"] = "false"
+
 @tool
 def calculator(query: str) -> str: 
-  # Explain the aim of this function 
-  """Use this tool to calculate the result of a mathematical expression."""
-  # Use literal_eval to safely evaluate mathematical expressions provided in string format.
-  return ast.literal_eval(query)
+    """Use this tool to calculate the result of a mathematical expression."""
+    logger.info(f"🧮 Calcul demandé: {query}")
+    try:
+        # Méthode simple et sécurisée
+        result = eval(query, {"__builtins__": {}}, {})
+        logger.info(f"✅ Résultat: {result}")
+        return str(result)
+    except Exception as e:
+        error_msg = f"Erreur: {str(e)}"
+        logger.error(f"❌ {error_msg}")
+        return error_msg
 
-# Instantiate the object.
+# Initialisation des outils
+logger.info("🔧 Initialisation des outils...")
 search = DuckDuckGoSearchRun()
-
-# Define a variable to hold all the tools we'll use
 tools = [search, calculator]
 
-# Create a large model
+# Modèle
+logger.info("🤖 Initialisation du modèle...")
 model = ChatOllama(model="mistral", temperature=0.1).bind_tools(tools)
 
-# Create a State object that acts as the system's memory
 class State(TypedDict):
     messages: Annotated[list, add_messages]
 
-# Build the model node
 def model_node(state: State) -> State:
+    logger.info(f"🤖 Appel du modèle...")
     res = model.invoke(state["messages"])
+    
+    # Log des outils appelés
+    if hasattr(res, 'tool_calls') and res.tool_calls:
+        tools_called = [tc['name'] for tc in res.tool_calls]
+        logger.info(f"🛠️ Outils appelés: {tools_called}")
+    
+    logger.info(f"✅ Réponse reçue")
     return {"messages": res}
 
-# Initialize the graph
+# Construction du graphe
+logger.info("🏗️ Construction du graphe...")
 builder = StateGraph(State) 
-
-# Build the nodes
 builder.add_node("model", model_node) 
 builder.add_node("tools", ToolNode(tools))
-
-# Add the edges
 builder.add_edge(START, "model")
 builder.add_conditional_edges("model", tools_condition)
 builder.add_edge("tools", "model")
 
 graph = builder.compile()
 
-"""
-with open("graph.png", "wb") as f:
-  f.write(graph.get_graph().draw_mermaid_png())
-
-"""
-"""
-# Create an input for the graph
-input = {
+# Test
+input_data = {
     "messages": [
-        HumanMessage(
-            "What was the age of the youngest person to win a Nobel Prize?"
-        )
+        HumanMessage("combien font 2+2?")
     ]
 }
 
+logger.info("🚀 Exécution...")
+result = graph.invoke(input_data)
 
-# Pass the input to the graph and invoke the graph
-result = graph.invoke(input)
-print(result)
-print("--------------The AI Agent's Answer------------------")
+print("\n" + "="*50)
+print("RÉPONSE:")
+print("="*50)
 print(result["messages"][-1].content)
-
-"""
+print("="*50)
 
 
