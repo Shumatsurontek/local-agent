@@ -113,6 +113,22 @@ def chat_interactive():
             print(f"\n❌ Erreur: {e}")
 
 if __name__ == "__main__":
+    # Option pour générer le graphique Mermaid
+    print("\n🎨 Voulez-vous générer le graphique de visualisation ? (y/n): ", end="")
+    generate_graph = input().strip().lower()
+    
+    if generate_graph in ['y', 'yes', 'o', 'oui']:
+        try:
+            print("📊 Génération du graphique...")
+            with open("graph.png", "wb") as f:
+                f.write(graph.get_graph().draw_mermaid_png())
+            logger.info("✅ Graphique sauvegardé: graph.png")
+            print("✅ Graphique sauvegardé dans graph.png")
+        except Exception as e:
+            logger.warning(f"⚠️ Impossible de générer le graphique: {e}")
+            print(f"⚠️ Erreur lors de la génération: {e}")
+    
+    # Lancer le chat interactif
     chat_interactive()
 
 
