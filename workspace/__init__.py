@@ -1,0 +1,3 @@
+"""
+Agno workspace configuration
+""" 

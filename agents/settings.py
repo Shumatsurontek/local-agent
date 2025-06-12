@@ -19,4 +19,4 @@ AVAILABLE_MODELS = [
 
 def get_model(model_name: str = DEFAULT_MODEL) -> Ollama:
     """Get an Ollama model instance"""
-    return Ollama(id=model_name, temperature=TEMPERATURE) 
+    return Ollama(id=model_name) 

@@ -34,10 +34,11 @@ dependencies = [
 dev = ["mypy", "pytest", "ruff", "types-requests", "types-beautifulsoup4"]
 
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.setuptools.packages.find]
+[tool.hatch.build.targets.wheel]
+packages = ["agents", "api", "ui", "teams", "utils", "workspace", "scripts"]
 
 # Agno workspace configuration
 [tool.agno]

@@ -1,254 +1,264 @@
-# 🤖 Multi-Agent System avec Agno
+# Multi-Agent System with Agno
 
-Un système multi-agents intelligent utilisant le framework [Agno](https://docs.agno.com) et Ollama pour créer des agents spécialisés capables de collaborer sur diverses tâches.
+A powerful multi-agent system built with the **Agno framework**, featuring specialized agents for different tasks including web search, financial analysis, code execution, and system administration.
 
-## ✨ Fonctionnalités
+## Features
 
-- **5 Agents Spécialisés** : Chaque agent a ses propres outils et compétences
-- **Framework Agno** : Architecture moderne et performante pour les systèmes multi-agents
-- **Ollama Local** : Modèles de langage exécutés localement (pas de dépendance cloud)
-- **Interface CLI** : Interface en ligne de commande intuitive avec Typer
-- **Interface Riche** : Affichage coloré et structuré avec Rich
-- **Équipe Collaborative** : Les agents peuvent travailler ensemble sur des tâches complexes
+- **🤖 Multiple Specialized Agents**: General, Search, Finance, Code, and System agents
+- **🔧 Agno Framework**: Built on the modern Agno Agent framework
+- **🦙 Ollama Integration**: Local LLM inference with multiple models (Mistral, Llama3.2, Phi3)
+- **🌐 FastAPI Backend**: RESTful API for agent interactions
+- **🎨 Streamlit UI**: Beautiful web interface for chat interactions
+- **👥 Team Collaboration**: Multi-agent teams with coordination capabilities
+- **🏗️ Extensible Architecture**: Easy to add new agents and tools
 
-## 🤖 Agents Disponibles
+## Quick Start
 
-| Agent | Description | Outils |
-|-------|-------------|--------|
-| `general` | 🤖 Assistant général | Conversation générale |
-| `search` | 🔍 Recherche web | DuckDuckGo |
-| `finance` | 💰 Analyse financière | YFinance (actions, nouvelles, analyses) |
-| `code` | 💻 Programmation | Python (calculs, scripts) |
-| `system` | ⚙️ Administration système | Shell/Terminal |
-| `team` | 👥 Équipe collaborative | Tous les agents ensemble |
-
-## 🚀 Installation Rapide
-
-### 1. Prérequis
-
-- Python 3.10+
-- Ollama installé ([https://ollama.ai](https://ollama.ai))
-
-### 2. Installation Automatique
-
+### 1. Automatic Setup
 ```bash
-# Cloner le projet
-git clone <votre-repo>
-cd local-agent-agno
+# Full setup with dependencies and models
+make setup
 
-# Lancer le script de setup
-python setup.py
+# Or manually
+python -m scripts.setup
 ```
 
-Le script va :
-- ✅ Vérifier/installer Ollama
-- ✅ Installer les dépendances Python
-- ✅ Télécharger les modèles nécessaires (mistral, llama3.2, codellama)
-- ✅ Tester la configuration
-
-### 3. Installation Manuelle
-
+### 2. Manual Setup
 ```bash
-# Installer Ollama (macOS)
-brew install ollama
+# Install dependencies
+pip install -e .
 
-# Ou télécharger depuis https://ollama.ai
-
-# Démarrer Ollama
+# Start Ollama (if not running)
 ollama serve
 
-# Télécharger les modèles
-ollama pull mistral
-ollama pull llama3.2
-ollama pull codellama
-
-# Installer les dépendances Python
-pip install -r requirements.txt
-# ou avec uv
-uv sync
+# Download required models
+ollama pull mistral:latest
+ollama pull llama3.2:3b
+ollama pull phi3:mini
 ```
 
-## 🎯 Utilisation
-
-### Lister les Agents
-
+### 3. Run the System
 ```bash
-python main.py list-agents
+# Start both API and UI
+make run
+# or
+python -m scripts.run both
+
+# Start only API
+make run-api
+
+# Start only UI  
+make run-ui
 ```
 
-### Chat avec un Agent Spécifique
+### 4. Access the Application
+- **Streamlit UI**: http://localhost:8501
+- **API Documentation**: http://localhost:8000/docs
+- **API Health Check**: http://localhost:8000/health
 
-```bash
-# Agent général
-python main.py chat --agent general
+## Architecture
 
-# Agent de recherche
-python main.py chat --agent search
-
-# Agent financier
-python main.py chat --agent finance
-
-# Agent de programmation
-python main.py chat --agent code
-
-# Agent système
-python main.py chat --agent system
-
-# Équipe collaborative
-python main.py chat --agent team
-```
-
-### Changer de Modèle
-
-```bash
-# Utiliser llama3.2 au lieu de mistral
-python main.py chat --agent general --model llama3.2
-
-# Utiliser codellama pour la programmation
-python main.py chat --agent code --model codellama
-```
-
-### Démonstration Rapide
-
-```bash
-python main.py demo
-```
-
-## 💡 Exemples d'Utilisation
-
-### Agent de Recherche
-```bash
-python main.py chat --agent search
-> Trouve les dernières nouvelles sur l'intelligence artificielle
-```
-
-### Agent Financier
-```bash
-python main.py chat --agent finance
-> Donne-moi le prix actuel d'Apple (AAPL) et les recommandations des analystes
-```
-
-### Agent de Programmation
-```bash
-python main.py chat --agent code
-> Écris une fonction Python pour calculer la suite de Fibonacci
-```
-
-### Agent Système
-```bash
-python main.py chat --agent system
-> Montre-moi l'utilisation du disque et les processus actifs
-```
-
-### Équipe Collaborative
-```bash
-python main.py chat --agent team
-> Recherche des informations sur Tesla, analyse son cours de bourse, et écris un script Python pour tracer l'évolution du prix
-```
-
-## 🏗️ Architecture
-
-Le projet utilise le framework Agno qui offre :
-
-- **Agents Lightning Fast** : Instantiation en ~3μs
-- **Multi-Modal** : Support texte, image, audio, vidéo
-- **Reasoning Intégré** : Capacités de raisonnement avancées
-- **Memory & Storage** : Mémoire persistante et stockage de session
-- **Model Agnostic** : Support de 23+ fournisseurs de modèles
-
-### Structure du Code
+The system follows the **official Agno Agent App architecture**:
 
 ```
-local-agent-agno/
-├── main.py              # Application principale avec CLI
-├── setup.py             # Script d'installation automatique
-├── pyproject.toml       # Configuration du projet
-├── requirements.txt     # Dépendances Python
-└── README.md           # Documentation
+local-agent/
+├── agents/           # Individual agent definitions
+│   ├── general.py    # General conversation agent
+│   ├── search.py     # Web search with DuckDuckGo
+│   ├── finance.py    # Financial analysis with YFinance
+│   ├── code.py       # Python code execution
+│   ├── system.py     # System administration
+│   └── settings.py   # Model configuration
+├── api/              # FastAPI backend
+│   ├── main.py       # API application
+│   ├── agents.py     # Agent endpoints
+│   └── teams.py      # Team collaboration endpoints
+├── ui/               # Streamlit frontend
+│   └── agent_chat.py # Chat interface
+├── teams/            # Multi-agent teams
+│   └── research.py   # Collaborative research team
+├── utils/            # Shared utilities
+│   ├── logging_config.py
+│   └── model_utils.py
+├── workspace/        # Agno workspace configuration
+│   ├── settings.py   # Workspace settings
+│   └── dev_resources.py
+└── scripts/          # Helper scripts
+    ├── setup.py      # Automatic setup
+    └── run.py        # Service runner
 ```
 
-## ⚙️ Configuration
+## Available Agents
 
-### Modèles Supportés
+### 🤖 General Agent
+- Natural conversation handling
+- General assistance and information
+- **Model**: Configurable (default: mistral:latest)
 
-- `mistral` (par défaut) - Modèle général équilibré
-- `llama3.2` - Alternative performante
-- `codellama` - Spécialisé pour le code
+### 🔍 Search Agent  
+- Web search using DuckDuckGo
+- Real-time information retrieval
+- **Tools**: DuckDuckGo search
+- **Model**: llama3.2:3b
 
-### Variables d'Environnement
+### 💰 Finance Agent
+- Stock price analysis
+- Financial data retrieval
+- Market information
+- **Tools**: YFinance
+- **Model**: mistral:latest
 
-```bash
-# Optionnel : URL personnalisée d'Ollama
-export OLLAMA_HOST=http://localhost:11434
-```
+### 💻 Code Agent
+- Python code execution
+- Mathematical calculations
+- Programming assistance
+- **Tools**: Python REPL, Calculator
+- **Model**: llama3.2:latest
 
-## 🔧 Développement
+### ⚙️ System Agent
+- Shell command execution
+- System administration
+- File management
+- **Tools**: Shell execution
+- **Model**: phi3:mini
 
-### Ajouter un Nouvel Agent
+### 👥 Research Team
+- Collaborative multi-agent team
+- Combines search, analysis, and synthesis
+- **Members**: Search + Finance + General agents
+- **Mode**: Coordinate for collaborative work
 
-1. Modifier la méthode `_create_agents()` dans `AgentManager`
-2. Ajouter les outils nécessaires
-3. Définir les instructions spécialisées
-4. Mettre à jour `list_agents()`
+## API Endpoints
 
-### Exemple d'Agent Personnalisé
+### Health & Status
+- `GET /health` - Health check
+- `GET /` - Root endpoint
+
+### Agents
+- `GET /agents` - List all agents
+- `POST /agents/{agent_id}/chat` - Chat with specific agent
+
+### Teams
+- `GET /teams` - List all teams  
+- `POST /teams/{team_id}/chat` - Chat with agent team
+
+## Configuration
+
+### Model Configuration
+Edit `agents/settings.py` to configure models:
 
 ```python
-# Agent de traduction
-translation_agent = Agent(
-    name="TranslationAgent",
-    model=self.model,
-    tools=[],  # Pas d'outils externes nécessaires
-    instructions=[
-        "Tu es un expert en traduction multilingue.",
-        "Traduis avec précision en préservant le contexte.",
-        "Indique la langue source détectée."
-    ],
-    markdown=True
+MODEL_CONFIG = {
+    "general": "mistral:latest",
+    "search": "llama3.2:3b", 
+    "finance": "mistral:latest",
+    "code": "llama3.2:latest",
+    "system": "phi3:mini"
+}
+```
+
+### Workspace Settings
+Edit `workspace/settings.py` for workspace configuration:
+
+```python
+ws_settings = WorkspaceSettings(
+    ws_name="local-agent-agno",
+    api_port=8000,
+    streamlit_port=8501,
+    # ... other settings
 )
 ```
 
-## 🐛 Dépannage
+## Development Commands
 
-### Ollama ne démarre pas
 ```bash
-# Vérifier le statut
-ollama list
+# Setup and installation
+make setup          # Full setup
+make install        # Install dependencies only
 
-# Redémarrer le service
-ollama serve
+# Running services
+make run           # Start both API and UI
+make run-api       # Start API only
+make run-ui        # Start UI only
+
+# Development
+make test          # Run tests
+make lint          # Run linter
+make format        # Format code
+make clean         # Clean temporary files
+
+# Ollama management
+make ollama-status # Check Ollama status
+make ollama-models # List available models
 ```
 
-### Modèle non trouvé
-```bash
-# Télécharger le modèle manquant
-ollama pull mistral
+## Dependencies
+
+### Core Framework
+- **Agno**: Modern agent framework
+- **Ollama**: Local LLM inference
+- **FastAPI**: Web API framework  
+- **Streamlit**: Web UI framework
+
+### Agent Tools
+- **DuckDuckGo**: Web search
+- **YFinance**: Financial data
+- **Rich**: Terminal formatting
+
+### Development
+- **Uvicorn**: ASGI server
+- **Pytest**: Testing framework
+- **Ruff**: Code linting and formatting
+
+## Adding New Agents
+
+1. **Create Agent File**: Add new agent in `agents/`
+2. **Define Tools**: Add required tools to the agent
+3. **Update Settings**: Add model configuration
+4. **Register in API**: Add endpoints in `api/agents.py`
+5. **Update UI**: Add to agent selection in UI
+
+Example agent structure:
+```python
+from agno import Agent
+from agno.models.ollama import OllamaChat
+
+agent = Agent(
+    name="MyAgent",
+    model=OllamaChat(id="mistral:latest"),
+    description="Agent description",
+    instructions="Detailed instructions",
+    tools=[my_tool_function]
+)
 ```
 
-### Erreurs d'import
+## Example Usage
+
+### Via Streamlit UI
+1. Open http://localhost:8501
+2. Select an agent or team
+3. Start chatting!
+
+### Via API
 ```bash
-# Réinstaller les dépendances
-pip install -r requirements.txt --force-reinstall
+# Chat with search agent
+curl -X POST "http://localhost:8000/agents/search/chat" \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Search for latest AI news"}'
+
+# Chat with research team
+curl -X POST "http://localhost:8000/teams/research/chat" \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Research the current state of renewable energy"}'
 ```
 
-## 📚 Ressources
+## Production Deployment
 
-- [Documentation Agno](https://docs.agno.com)
-- [Ollama](https://ollama.ai)
-- [Modèles disponibles](https://ollama.ai/library)
+For production deployment with the full Agno stack:
 
-## 🤝 Contribution
+1. **Setup PostgreSQL database**
+2. **Configure environment variables**
+3. **Update workspace settings**
+4. **Deploy with your preferred method** (Docker, Kubernetes, etc.)
 
-1. Fork le projet
-2. Créer une branche feature (`git checkout -b feature/amazing-agent`)
-3. Commit les changements (`git commit -m 'Add amazing agent'`)
-4. Push vers la branche (`git push origin feature/amazing-agent`)
-5. Ouvrir une Pull Request
-
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
----
-
-**🚀 Prêt à explorer l'intelligence artificielle locale avec des agents spécialisés !**
+The system is designed to work seamlessly with the Agno framework's production features including database persistence, user management, and scalable deployment.
