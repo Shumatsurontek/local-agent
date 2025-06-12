@@ -4,6 +4,9 @@ Development resources for local development
 
 from workspace.settings import ws_settings
 import uvicorn
+import logging
+
+logger = logging.getLogger(__name__)
 
 def serve_api(
     app_file: str = "api.main:app",

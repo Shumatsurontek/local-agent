@@ -1,0 +1,26 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: >
+  Méta‑règle essentielle pour générer, structurer et maintenir toutes les autres rules
+  dans le projet feat/agno‑integration. Obligatoire avant toute génération ou modification.
+globs:
+alwaysApply: true
+---
+
+# Rule Generating Agent
+
+## Critical Rules
+- Le fichier doit exister et être chargé en tête de toute requête de génération de règle.
+- Tout nouveau fichier `.mdc` doit respecter le template et la structure définie ici.
+
+## Examples
+<example>
+# valide : chargé en premier
+</example>
+<example type="invalid">
+# invalide : absent ou mal formaté
+</example>

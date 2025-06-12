@@ -4,7 +4,7 @@ Main FastAPI application
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import agents, teams, health
+from api.routes import agents, teams, health, websocket
 from api.settings import API_SETTINGS
 
 # Create FastAPI app
@@ -29,6 +29,7 @@ app.add_middleware(
 app.include_router(health.router, prefix="/health", tags=["Health"])
 app.include_router(agents.router, prefix="/agents", tags=["Agents"])
 app.include_router(teams.router, prefix="/teams", tags=["Teams"])
+app.include_router(websocket.router, prefix="/ws", tags=["WebSocket"])
 
 @app.get("/")
 async def root():
@@ -36,5 +37,6 @@ async def root():
     return {
         "message": "Multi-Agent System API",
         "version": API_SETTINGS.version,
-        "docs": "/docs"
+        "docs": "/docs",
+        "websocket": "/ws"
     } 

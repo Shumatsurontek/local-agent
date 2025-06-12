@@ -1,0 +1,28 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: >
+  Imposer l'organisation stricte du répertoire `.cursor/rules` et des noms de fichiers.
+globs:
+alwaysApply: true
+---
+
+## Critical Rules
+- Tous les `.mdc` doivent résider sous `.cursor/rules/**`
+- Nom des règles :
+  - `*-always.mdc` pour règles globales
+  - `*-auto.mdc` pour règles auto‑attachées (globs non vides)
+  - `*-agent.mdc` pour règles sur demande
+  - `*-manual.mdc` pour macros, globs + description vides
+- Aucun fichier `.mdc` ne doit sortir de ce chemin
+
+## Examples
+<example>
+# valide : .cursor/rules/frontend/rule‑naming-always.mdc
+</example>
+<example type="invalid">
+# invalide : mon‑rule.mdc hors dossier ou nom incorrect
+</example>

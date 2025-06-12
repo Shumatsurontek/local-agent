@@ -1,0 +1,24 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: >
+  Détecter les cas où l’IA doit appliquer les patterns propres
+  à l’intégration Agno (naming, fonctions utilitaires).
+globs:
+alwaysApply: false
+---
+
+## Critical Rules
+- Lorsque l’on écrit `agent.sendToAgno(...)`, utiliser toujours `async/await` et `try/catch`
+- Préférer la fonction `buildAgnoPayload(...)` standardisée, éviter la duplication
+
+## Examples
+<example>
+await agent.sendToAgno(buildAgnoPayload(...));
+</example>
+<example type="invalid">
+agent.sendToAgno({ raw: payload });
+</example>
