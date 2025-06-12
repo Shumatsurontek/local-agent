@@ -1,19 +1,19 @@
 [project]
-name = "local-agent-agno"
-version = "1.0.0"
-requires-python = ">=3.10"
+name = "agent-app"
+version = "0.1.0"
+requires-python = ">=3.11"
 readme = "README.md"
-authors = [{ name = "Local Agent Team", email = "team@localagent.dev" }]
-description = "Multi-Agent System using Agno framework with Ollama"
+authors = [{ name = "Agno", email = "hello@agno.com" }]
 
 dependencies = [
-  "agno>=1.5.0",
+  "agno[aws]==1.5.5",
   "alembic",
   "beautifulsoup4",
   "duckduckgo-search",
+  "exa_py",
   "fastapi[standard]",
   "nest_asyncio",
-  "ollama>=0.4.0",
+  "openai",
   "pgvector",
   "psycopg[binary]",
   "pypdf",
@@ -26,8 +26,6 @@ dependencies = [
   "aiofiles",
   "newspaper4k",
   "lxml_html_clean",
-  "rich>=13.0.0",
-  "requests>=2.31.0",
 ]
 
 [project.optional-dependencies]
@@ -39,9 +37,9 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 
-# Agno workspace configuration
-[tool.agno]
-workspace = "workspace"
+# Change this value to use a different directory for the agno workspace.
+# [tool.agno]
+# workspace = "workspace"
 
 [tool.ruff]
 line-length = 120
@@ -58,7 +56,7 @@ plugins = ["pydantic.mypy"]
 exclude = [".venv*"]
 
 [[tool.mypy.overrides]]
-module = ["pgvector.*", "setuptools.*", "nest_asyncio.*", "agno.*", "ollama.*"]
+module = ["pgvector.*", "setuptools.*", "nest_asyncio.*", "agno.*"]
 ignore_missing_imports = true
 
 [tool.uv.pip]

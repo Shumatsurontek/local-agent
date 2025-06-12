@@ -1,159 +1,254 @@
-# Local Agent
+# 🤖 Multi-Agent System avec Agno
 
-A local AI agent built with LangChain and LangGraph that combines web search capabilities with mathematical computation. The agent uses Ollama's Mistral model to process queries and can autonomously decide when to search the web or perform calculations.
+Un système multi-agents intelligent utilisant le framework [Agno](https://docs.agno.com) et Ollama pour créer des agents spécialisés capables de collaborer sur diverses tâches.
 
-## Features
+## ✨ Fonctionnalités
 
-- **Web Search**: Uses DuckDuckGo search to find real-time information
-- **Mathematical Calculations**: Safely evaluates mathematical expressions
-- **Autonomous Tool Selection**: Intelligently chooses between search and calculation based on the query
-- **Local LLM**: Runs entirely locally using Ollama's Mistral model
-- **Graph-based Architecture**: Built with LangGraph for robust conversation flow
+- **5 Agents Spécialisés** : Chaque agent a ses propres outils et compétences
+- **Framework Agno** : Architecture moderne et performante pour les systèmes multi-agents
+- **Ollama Local** : Modèles de langage exécutés localement (pas de dépendance cloud)
+- **Interface CLI** : Interface en ligne de commande intuitive avec Typer
+- **Interface Riche** : Affichage coloré et structuré avec Rich
+- **Équipe Collaborative** : Les agents peuvent travailler ensemble sur des tâches complexes
 
-## Architecture
+## 🤖 Agents Disponibles
 
-The agent uses a graph-based architecture with two main nodes:
-- **Model Node**: Processes user input and decides which tools to use
-- **Tools Node**: Executes the selected tools (search or calculator)
+| Agent | Description | Outils |
+|-------|-------------|--------|
+| `general` | 🤖 Assistant général | Conversation générale |
+| `search` | 🔍 Recherche web | DuckDuckGo |
+| `finance` | 💰 Analyse financière | YFinance (actions, nouvelles, analyses) |
+| `code` | 💻 Programmation | Python (calculs, scripts) |
+| `system` | ⚙️ Administration système | Shell/Terminal |
+| `team` | 👥 Équipe collaborative | Tous les agents ensemble |
 
-The system maintains conversation state and can handle multi-turn interactions.
+## 🚀 Installation Rapide
 
-## Prerequisites
+### 1. Prérequis
 
-- Python 3.13+
-- [Ollama](https://ollama.ai/) installed and running
-- Mistral model pulled in Ollama: `ollama pull mistral`
+- Python 3.10+
+- Ollama installé ([https://ollama.ai](https://ollama.ai))
 
-## Installation
+### 2. Installation Automatique
 
-1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd local-agent
+# Cloner le projet
+git clone <votre-repo>
+cd local-agent-agno
+
+# Lancer le script de setup
+python setup.py
 ```
 
-2. Install dependencies using uv (recommended):
+Le script va :
+- ✅ Vérifier/installer Ollama
+- ✅ Installer les dépendances Python
+- ✅ Télécharger les modèles nécessaires (mistral, llama3.2, codellama)
+- ✅ Tester la configuration
+
+### 3. Installation Manuelle
+
 ```bash
+# Installer Ollama (macOS)
+brew install ollama
+
+# Ou télécharger depuis https://ollama.ai
+
+# Démarrer Ollama
+ollama serve
+
+# Télécharger les modèles
+ollama pull mistral
+ollama pull llama3.2
+ollama pull codellama
+
+# Installer les dépendances Python
+pip install -r requirements.txt
+# ou avec uv
 uv sync
 ```
 
-Or using pip:
+## 🎯 Utilisation
+
+### Lister les Agents
+
 ```bash
-pip install -r requirements.txt
+python main.py list-agents
 ```
 
-3. Ensure Ollama is running and has the Mistral model:
+### Chat avec un Agent Spécifique
+
 ```bash
+# Agent général
+python main.py chat --agent general
+
+# Agent de recherche
+python main.py chat --agent search
+
+# Agent financier
+python main.py chat --agent finance
+
+# Agent de programmation
+python main.py chat --agent code
+
+# Agent système
+python main.py chat --agent system
+
+# Équipe collaborative
+python main.py chat --agent team
+```
+
+### Changer de Modèle
+
+```bash
+# Utiliser llama3.2 au lieu de mistral
+python main.py chat --agent general --model llama3.2
+
+# Utiliser codellama pour la programmation
+python main.py chat --agent code --model codellama
+```
+
+### Démonstration Rapide
+
+```bash
+python main.py demo
+```
+
+## 💡 Exemples d'Utilisation
+
+### Agent de Recherche
+```bash
+python main.py chat --agent search
+> Trouve les dernières nouvelles sur l'intelligence artificielle
+```
+
+### Agent Financier
+```bash
+python main.py chat --agent finance
+> Donne-moi le prix actuel d'Apple (AAPL) et les recommandations des analystes
+```
+
+### Agent de Programmation
+```bash
+python main.py chat --agent code
+> Écris une fonction Python pour calculer la suite de Fibonacci
+```
+
+### Agent Système
+```bash
+python main.py chat --agent system
+> Montre-moi l'utilisation du disque et les processus actifs
+```
+
+### Équipe Collaborative
+```bash
+python main.py chat --agent team
+> Recherche des informations sur Tesla, analyse son cours de bourse, et écris un script Python pour tracer l'évolution du prix
+```
+
+## 🏗️ Architecture
+
+Le projet utilise le framework Agno qui offre :
+
+- **Agents Lightning Fast** : Instantiation en ~3μs
+- **Multi-Modal** : Support texte, image, audio, vidéo
+- **Reasoning Intégré** : Capacités de raisonnement avancées
+- **Memory & Storage** : Mémoire persistante et stockage de session
+- **Model Agnostic** : Support de 23+ fournisseurs de modèles
+
+### Structure du Code
+
+```
+local-agent-agno/
+├── main.py              # Application principale avec CLI
+├── setup.py             # Script d'installation automatique
+├── pyproject.toml       # Configuration du projet
+├── requirements.txt     # Dépendances Python
+└── README.md           # Documentation
+```
+
+## ⚙️ Configuration
+
+### Modèles Supportés
+
+- `mistral` (par défaut) - Modèle général équilibré
+- `llama3.2` - Alternative performante
+- `codellama` - Spécialisé pour le code
+
+### Variables d'Environnement
+
+```bash
+# Optionnel : URL personnalisée d'Ollama
+export OLLAMA_HOST=http://localhost:11434
+```
+
+## 🔧 Développement
+
+### Ajouter un Nouvel Agent
+
+1. Modifier la méthode `_create_agents()` dans `AgentManager`
+2. Ajouter les outils nécessaires
+3. Définir les instructions spécialisées
+4. Mettre à jour `list_agents()`
+
+### Exemple d'Agent Personnalisé
+
+```python
+# Agent de traduction
+translation_agent = Agent(
+    name="TranslationAgent",
+    model=self.model,
+    tools=[],  # Pas d'outils externes nécessaires
+    instructions=[
+        "Tu es un expert en traduction multilingue.",
+        "Traduis avec précision en préservant le contexte.",
+        "Indique la langue source détectée."
+    ],
+    markdown=True
+)
+```
+
+## 🐛 Dépannage
+
+### Ollama ne démarre pas
+```bash
+# Vérifier le statut
+ollama list
+
+# Redémarrer le service
 ollama serve
+```
+
+### Modèle non trouvé
+```bash
+# Télécharger le modèle manquant
 ollama pull mistral
 ```
 
-## Usage
-
-### Basic Usage
-
-The main functionality is in `main.py`. To use the agent, uncomment the example code at the bottom of the file and run:
-
-```python
-from langchain_core.messages import HumanMessage
-
-# Create an input for the graph
-input_data = {
-    "messages": [
-        HumanMessage("What was the age of the youngest person to win a Nobel Prize?")
-    ]
-}
-
-# Pass the input to the graph and invoke it
-result = graph.invoke(input_data)
-print(result["messages"][-1].content)
+### Erreurs d'import
+```bash
+# Réinstaller les dépendances
+pip install -r requirements.txt --force-reinstall
 ```
 
-### Example Queries
+## 📚 Ressources
 
-The agent can handle various types of queries:
+- [Documentation Agno](https://docs.agno.com)
+- [Ollama](https://ollama.ai)
+- [Modèles disponibles](https://ollama.ai/library)
 
-**Web Search Queries:**
-- "What's the latest news about AI?"
-- "Who won the Nobel Prize in Physics in 2023?"
-- "What's the weather like in Tokyo?"
+## 🤝 Contribution
 
-**Mathematical Calculations:**
-- "Calculate 15 * 23 + 45"
-- "What is 2^10?"
-- "Solve (100 + 50) / 3"
+1. Fork le projet
+2. Créer une branche feature (`git checkout -b feature/amazing-agent`)
+3. Commit les changements (`git commit -m 'Add amazing agent'`)
+4. Push vers la branche (`git push origin feature/amazing-agent`)
+5. Ouvrir une Pull Request
 
-**Mixed Queries:**
-- "How many days until Christmas 2024 and calculate 365 - 30"
-- "What's the population of Tokyo and divide it by 1000"
+## 📄 Licence
 
-## Project Structure
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
-```
-local-agent/
-├── main.py              # Main agent implementation
-├── pyproject.toml       # Project configuration
-├── requirements.txt     # Python dependencies
-├── uv.lock             # Dependency lock file
-├── README.md           # This file
-└── .venv/              # Virtual environment
-```
+---
 
-## Dependencies
-
-- **langchain**: Core LangChain framework
-- **langgraph**: Graph-based conversation flow
-- **langchain-ollama**: Ollama integration for local LLMs
-- **langchain-community**: Community tools including DuckDuckGo search
-- **duckduckgo-search**: Web search functionality
-
-## Configuration
-
-The agent is configured with:
-- **Model**: Mistral via Ollama
-- **Temperature**: 0.1 (for more deterministic responses)
-- **Tools**: Web search and calculator
-
-## Development
-
-To extend the agent with new tools:
-
-1. Create a new tool function using the `@tool` decorator
-2. Add it to the `tools` list
-3. The agent will automatically learn to use it
-
-Example:
-```python
-@tool
-def weather_tool(location: str) -> str:
-    """Get weather information for a location."""
-    # Implementation here
-    pass
-
-tools = [search, calculator, weather_tool]
-```
-
-## Visualization
-
-The project includes commented code to generate a visual representation of the agent's graph structure:
-
-```python
-with open("graph.png", "wb") as f:
-    f.write(graph.get_graph().draw_mermaid_png())
-```
-
-## Troubleshooting
-
-**Common Issues:**
-
-1. **Ollama not running**: Ensure Ollama service is started with `ollama serve`
-2. **Mistral model not found**: Pull the model with `ollama pull mistral`
-3. **Import errors**: Ensure all dependencies are installed in your virtual environment
-
-## License
-
-[Add your license information here]
-
-## Contributing
-
-[Add contribution guidelines here]
+**🚀 Prêt à explorer l'intelligence artificielle locale avec des agents spécialisés !**

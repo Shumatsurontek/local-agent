@@ -1,6 +1,8 @@
-# Here are the libraries we'll write: 
-langchain 
-langgraph 
-langchain-ollama
-langchain_community
-duckduckgo-search
+# Multi-Agent System with Agno framework
+agno>=0.8.0
+ollama>=0.4.0
+duckduckgo-search>=8.0.2
+yfinance>=0.2.0
+requests>=2.31.0
+rich>=13.0.0
+typer>=0.12.0
