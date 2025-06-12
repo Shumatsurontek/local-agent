@@ -46,29 +46,38 @@ def serve_ui(
 
 def serve_both():
     """Serve both API and UI (for development)"""
-    import threading
+    import subprocess
+    import sys
     import time
     
-    # Start API in a separate thread
-    api_thread = threading.Thread(
-        target=serve_api,
-        kwargs={
-            "host": ws_settings.api_host,
-            "port": ws_settings.api_port,
-            "reload": True
-        }
-    )
-    api_thread.daemon = True
-    api_thread.start()
+    print("🚀 Starting both API and UI services...")
+    print("💡 Note: Use 'make run-api' and 'make run-ui' in separate terminals for development with reload")
+    
+    # Start API in background process (no reload to avoid thread issues)
+    api_process = subprocess.Popen([
+        sys.executable, "-m", "uvicorn", 
+        "api.main:app",
+        "--host", ws_settings.api_host,
+        "--port", str(ws_settings.api_port),
+        "--log-level", "info"
+    ])
+    
+    print(f"🌐 API started on http://{ws_settings.api_host}:{ws_settings.api_port}")
     
     # Give API time to start
-    time.sleep(2)
+    time.sleep(3)
     
-    # Start Streamlit
-    serve_ui(
-        host=ws_settings.streamlit_host,
-        port=ws_settings.streamlit_port
-    )
+    try:
+        # Start Streamlit (this will block)
+        serve_ui(
+            host=ws_settings.streamlit_host,
+            port=ws_settings.streamlit_port
+        )
+    finally:
+        # Clean up API process
+        print("🛑 Stopping API...")
+        api_process.terminate()
+        api_process.wait()
 
 if __name__ == "__main__":
     import sys

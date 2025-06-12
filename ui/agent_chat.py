@@ -104,7 +104,7 @@ def main():
         
         if st.button("🗑️ Effacer l'historique"):
             st.session_state.messages = []
-            st.experimental_rerun()
+            st.rerun()
         
         if st.button("📋 Exporter la conversation"):
             conversation = "\n\n".join([
