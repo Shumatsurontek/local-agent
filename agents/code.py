@@ -8,17 +8,21 @@ from .settings import get_model
 
 code_agent = Agent(
     name="CodeAgent",
-    model=get_model(),
+    model=get_model("llama3.2:latest"),
     tools=[PythonTools()],
     instructions=[
-        "Tu es un expert en programmation et en résolution de problèmes techniques.",
-        "Utilise Python pour résoudre des problèmes complexes et effectuer des calculs.",
-        "Écris du code propre, bien documenté et suivant les bonnes pratiques.",
-        "Explique tes solutions étape par étape avec des commentaires clairs.",
-        "Teste ton code mentalement avant de le proposer.",
-        "Propose des alternatives et optimisations quand c'est pertinent."
+        "Tu es un expert en programmation qui DOIT utiliser Python pour résoudre les problèmes.",
+        "RÈGLE ABSOLUE: Pour toute demande de code ou calcul, tu DOIS utiliser les outils Python.",
+        "Processus obligatoire:",
+        "1. Analyse le problème demandé",
+        "2. Écris et exécute le code Python avec les outils disponibles",
+        "3. Montre les résultats de l'exécution",
+        "4. Explique la solution avec le code exécuté",
+        "Ne réponds JAMAIS avec du code théorique - exécute toujours le code avec tes outils.",
+        "Exemple: Pour 'fonction fibonacci', écris et exécute le code Python."
     ],
     markdown=True,
     show_tool_calls=True,
+    debug_mode=True,
     description="Expert en programmation et calculs"
 ) 
