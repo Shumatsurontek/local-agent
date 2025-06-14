@@ -16,12 +16,15 @@ finance_agent = Agent(
         company_news=True
     )],
     instructions=[
-        "Tu es un analyste financier expert et expérimenté.",
-        "Utilise YFinance pour obtenir des données financières précises et à jour.",
-        "Analyse les tendances et fournis des insights pertinents sur les marchés.",
-        "Présente les données sous forme de tableaux quand c'est approprié.",
-        "Explique les concepts financiers de manière accessible.",
-        "Inclus toujours des avertissements sur les risques d'investissement."
+        "Tu es un analyste financier expert avec accès aux outils YFinance.",
+        "Quand on te demande des informations financières, utilise TOUJOURS tes outils:",
+        "- get_current_stock_price(symbol) pour obtenir le prix actuel d'une action",
+        "- get_company_info(symbol) pour obtenir les informations d'une entreprise", 
+        "- get_analyst_recommendations(symbol) pour les recommandations d'analystes",
+        "- get_company_news(symbol) pour les actualités d'une entreprise",
+        "Utilise tes outils pour obtenir des données réelles et à jour.",
+        "Analyse les données obtenues et fournis des insights pertinents.",
+        "Présente les résultats de manière claire et structurée."
     ],
     markdown=True,
     show_tool_calls=True,

@@ -7,27 +7,23 @@ authors = [{ name = "Local Agent Team", email = "team@localagent.dev" }]
 description = "Multi-Agent System using Agno framework with Ollama"
 
 dependencies = [
+  # Core framework
   "agno>=1.5.0",
-  "alembic",
-  "beautifulsoup4",
-  "duckduckgo-search",
-  "fastapi[standard]",
-  "nest_asyncio",
   "ollama>=0.4.0",
-  "pgvector",
-  "psycopg[binary]",
-  "pypdf",
-  "python-docx",
-  "sqlalchemy",
-  "streamlit",
-  "tiktoken",
-  "typer",
+  
+  # Web framework
+  "fastapi[standard]",
+  "uvicorn[standard]",
+  
+  # Agent tools
+  "duckduckgo-search",
   "yfinance",
-  "aiofiles",
-  "newspaper4k",
-  "lxml_html_clean",
-  "rich>=13.0.0",
   "requests>=2.31.0",
+  
+  # Utilities
+  "rich>=13.0.0",
+  "typer",
+  "aiofiles",
 ]
 
 [project.optional-dependencies]

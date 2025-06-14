@@ -262,3 +262,116 @@ For production deployment with the full Agno stack:
 4. **Deploy with your preferred method** (Docker, Kubernetes, etc.)
 
 The system is designed to work seamlessly with the Agno framework's production features including database persistence, user management, and scalable deployment.
+
+## Roadmap pour l'intégration de shadcn/ui
+
+### 1. Préparation de l'environnement
+```bash
+# Créer un nouveau dossier pour le frontend
+mkdir -p ui/web
+cd ui/web
+
+# Initialiser un nouveau projet Next.js avec TypeScript
+npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*"
+
+# Installer les dépendances de base
+npm install @radix-ui/react-slot class-variance-authority clsx tailwind-merge lucide-react
+```
+
+### 2. Configuration de shadcn/ui
+```bash
+# Installer shadcn/ui CLI
+npx shadcn-ui@latest init
+
+# Répondre aux questions :
+# - Style: Default
+# - Base color: Slate
+# - CSS variables: Yes
+# - React Server Components: Yes
+# - Tailwind CSS class sorting: Yes
+# - Layout: Yes
+# - Components directory: @/components
+# - Utils directory: @/lib/utils
+# - Include example components: No
+```
+
+### 3. Installation des composants de base
+```bash
+# Installer les composants essentiels
+npx shadcn@latest add button
+npx shadcn@latest add card
+npx shadcn@latest add dialog
+npx shadcn@latest add input
+npx shadcn@latest add textarea
+npx shadcn@latest add sonner
+```
+
+### 4. Structure des fichiers
+```
+ui/web/
+├── app/
+│   ├── layout.tsx      # Layout principal
+│   ├── page.tsx        # Page d'accueil
+│   └── globals.css     # Styles globaux
+├── components/
+│   ├── ui/            # Composants shadcn/ui
+│   └── chat/          # Composants spécifiques au chat
+├── lib/
+│   └── utils.ts       # Utilitaires
+└── public/            # Assets statiques
+```
+
+### 5. Configuration de l'API
+```typescript
+// app/api/chat/route.ts
+import { NextResponse } from "next/server"
+
+export async function POST(req: Request) {
+  try {
+    const { message } = await req.json()
+    // TODO: Intégrer avec votre backend agno
+    return NextResponse.json({ message: "Réponse de l'agent" })
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Erreur de traitement" },
+      { status: 500 }
+    )
+  }
+}
+```
+
+### 6. Intégration avec agno
+1. Créer un service d'API dans le backend pour communiquer avec agno
+2. Configurer les routes API dans Next.js pour appeler ce service
+3. Gérer l'authentification et les sessions si nécessaire
+
+### 7. Développement
+```bash
+# Lancer le serveur de développement
+npm run dev
+
+# Construire pour la production
+npm run build
+
+# Lancer en production
+npm start
+```
+
+### 8. Déploiement
+1. Configurer les variables d'environnement
+2. Construire l'application
+3. Déployer sur votre plateforme préférée (Vercel, Netlify, etc.)
+
+### 9. Prochaines étapes
+- [ ] Ajouter l'authentification
+- [ ] Implémenter le chat en temps réel
+- [ ] Ajouter des animations
+- [ ] Optimiser les performances
+- [ ] Ajouter des tests
+- [ ] Configurer le CI/CD
+
+### Ressources utiles
+- [Documentation shadcn/ui](https://ui.shadcn.com)
+- [Documentation Next.js](https://nextjs.org/docs)
+- [Documentation Tailwind CSS](https://tailwindcss.com/docs)
+- [Documentation agno](https://agno.ai/docs)

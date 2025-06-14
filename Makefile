@@ -9,11 +9,13 @@ help:
 	@echo "Setup & Installation:"
 	@echo "  make setup      - Full setup (install deps + models)"
 	@echo "  make install    - Install Python dependencies only"
+	@echo "  make run-web-install - Install web dependencies"
 	@echo ""
 	@echo "Running:"
 	@echo "  make run-api    - Start API server only"
 	@echo "  make run-ui     - Start Streamlit UI only"
-	@echo "  make run-both   - Start both API and UI"
+	@echo "  make run-web    - Start Next.js web app"
+	@echo "  make run-both   - Start both API and Web"
 	@echo "  make run        - Alias for run-both"
 	@echo ""
 	@echo "Development:"
@@ -45,9 +47,17 @@ run-ui:
 	@echo "🎨 Starting Streamlit UI..."
 	python -m scripts.run ui
 
+run-web:
+	@echo "🌐 Starting Next.js web app..."
+	cd ui/web && npm run dev
+
+run-web-install:
+	@echo "📦 Installing web dependencies..."
+	cd ui/web && npm install
+
 run-both run:
-	@echo "🚀 Starting both services..."
-	python -m scripts.run both
+	@echo "🚀 Starting both API and Web services..."
+	python -m scripts.run api & cd ui/web && npm run dev
 
 # Development
 test:

@@ -1,5 +1,25 @@
 ---
-description:
-globs:
+description: 
+globs: 
 alwaysApply: false
 ---
+---
+description: >
+  Appliquer automatiquement pour tous les fichiers `.ts`, `.tsx`, `.md`. Garantir les standards
+  de style, imports, documentation.
+globs: *.ts,*.tsx,*.md
+alwaysApply: false
+---
+
+## Critical Rules
+- Ajouter en haut des `.ts[x]` : `import type { Agno } from './agno'`
+- Dans `.md` : vérifier que la doc intégrée mentionne la section `## Agno`
+- Refuser les TODO non accompagnés d’une issue linkée
+
+## Examples
+<example>
+# valide dans foo.ts : import type { Agno }...
+</example>
+<example type="invalid">
+# invalide : usage de TODO sans lien vers issue
+</example>

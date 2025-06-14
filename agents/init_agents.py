@@ -8,7 +8,7 @@ from agents.finance import finance_agent
 from agents.code import code_agent
 from agents.system import system_agent
 from agents.middleware import register_agent, track_agent_activity
-from teams.research import collaborative_team
+from teams.collaborative_team import collaborative_team
 import logging
 
 logger = logging.getLogger(__name__)
@@ -22,7 +22,7 @@ def init_agents():
         "description": general_agent.description,
         "model": getattr(general_agent.model, "id", "unknown"),
         "type": "general",
-        "tools": [t.__class__.__name__ for t in general_agent.tools] if hasattr(general_agent, "tools") else []
+        "tools": [t.__class__.__name__ for t in general_agent.tools] if hasattr(general_agent, "tools") and general_agent.tools else []
     })
     
     # Register Search Agent
@@ -31,7 +31,7 @@ def init_agents():
         "description": search_agent.description,
         "model": getattr(search_agent.model, "id", "unknown"),
         "type": "search",
-        "tools": [t.__class__.__name__ for t in search_agent.tools] if hasattr(search_agent, "tools") else []
+        "tools": [t.__class__.__name__ for t in search_agent.tools] if hasattr(search_agent, "tools") and search_agent.tools else []
     })
     
     # Register Finance Agent
@@ -40,7 +40,7 @@ def init_agents():
         "description": finance_agent.description,
         "model": getattr(finance_agent.model, "id", "unknown"),
         "type": "finance",
-        "tools": [t.__class__.__name__ for t in finance_agent.tools] if hasattr(finance_agent, "tools") else []
+        "tools": [t.__class__.__name__ for t in finance_agent.tools] if hasattr(finance_agent, "tools") and finance_agent.tools else []
     })
     
     # Register Code Agent
@@ -49,7 +49,7 @@ def init_agents():
         "description": code_agent.description,
         "model": getattr(code_agent.model, "id", "unknown"),
         "type": "code",
-        "tools": [t.__class__.__name__ for t in code_agent.tools] if hasattr(code_agent, "tools") else []
+        "tools": [t.__class__.__name__ for t in code_agent.tools] if hasattr(code_agent, "tools") and code_agent.tools else []
     })
     
     # Register System Agent
@@ -58,7 +58,7 @@ def init_agents():
         "description": system_agent.description,
         "model": getattr(system_agent.model, "id", "unknown"),
         "type": "system",
-        "tools": [t.__class__.__name__ for t in system_agent.tools] if hasattr(system_agent, "tools") else []
+        "tools": [t.__class__.__name__ for t in system_agent.tools] if hasattr(system_agent, "tools") and system_agent.tools else []
     })
     
     # Register Team

@@ -95,21 +95,26 @@ class ConnectionManager:
             "last_updated": datetime.now().isoformat()
         }
         
-        # Create task to broadcast the update
-        asyncio.create_task(self.broadcast({
-            "type": "agent_update",
-            "agent_id": agent_id,
-            "data": self.agent_status[agent_id]
-        }))
+        # Create task to broadcast the update only if event loop is running
+        try:
+            asyncio.create_task(self.broadcast({
+                "type": "agent_update",
+                "agent_id": agent_id,
+                "data": self.agent_status[agent_id]
+            }))
+        except RuntimeError:
+            # No event loop running, skip broadcast
+            logger.debug(f"No event loop running, skipping broadcast for agent {agent_id}")
     
-    def record_interaction(self, interaction: Dict[str, Any]):
+    def record_interaction(self, interaction: Dict[str, Any]) -> str:
         """Record an agent interaction and broadcast to clients"""
         # Add timestamp if not present
         if "timestamp" not in interaction:
             interaction["timestamp"] = datetime.now().isoformat()
             
         # Add unique ID
-        interaction["id"] = str(uuid4())
+        interaction_id = str(uuid4())
+        interaction["id"] = interaction_id
         
         # Add to interactions list
         self.interactions.append(interaction)
@@ -118,11 +123,17 @@ class ConnectionManager:
         if len(self.interactions) > 1000:
             self.interactions = self.interactions[-1000:]
         
-        # Broadcast the interaction
-        asyncio.create_task(self.broadcast({
-            "type": "new_interaction",
-            "data": interaction
-        }))
+        # Broadcast the interaction only if event loop is running
+        try:
+            asyncio.create_task(self.broadcast({
+                "type": "new_interaction",
+                "data": interaction
+            }))
+        except RuntimeError:
+            # No event loop running, skip broadcast
+            logger.debug("No event loop running, skipping interaction broadcast")
+        
+        return interaction_id
 
 # Global connection manager instance
 manager = ConnectionManager() 
