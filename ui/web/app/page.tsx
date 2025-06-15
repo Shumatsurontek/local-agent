@@ -38,8 +38,8 @@ const agents = [
     badge: "Généraliste",
     badgeColor: "bg-blue-50 text-blue-700 border-blue-200",
     features: ["Conversation naturelle", "Assistance générale", "Informations variées"],
-    stats: "Modèle: Mistral",
-    model: "mistral:latest"
+    stats: "Modèle: Qwen3:8b",
+    model: "qwen3:8b"
   },
   {
     id: "search", 
@@ -51,8 +51,8 @@ const agents = [
     badge: "Recherche Web",
     badgeColor: "bg-green-50 text-green-700 border-green-200",
     features: ["Recherche DuckDuckGo", "Informations temps réel", "Veille web"],
-    stats: "Modèle: Llama3.2:3b",
-    model: "llama3.2:3b"
+    stats: "Modèle: Qwen3:8b",
+    model: "qwen3:8b"
   },
   {
     id: "finance",
@@ -64,8 +64,8 @@ const agents = [
     badge: "Finance",
     badgeColor: "bg-yellow-50 text-yellow-700 border-yellow-200",
     features: ["Analyse boursière", "Données YFinance", "Informations financières"],
-    stats: "Modèle: Mistral",
-    model: "mistral:latest"
+    stats: "Modèle: Qwen3:8b",
+    model: "qwen3:8b"
   },
   {
     id: "code",
@@ -77,8 +77,8 @@ const agents = [
     badge: "Développement",
     badgeColor: "bg-purple-50 text-purple-700 border-purple-200",
     features: ["Exécution Python", "Calculs mathématiques", "Assistance dev"],
-    stats: "Modèle: Llama3.2",
-    model: "llama3.2:latest"
+    stats: "Modèle: Qwen2.5-Coder:7b",
+    model: "qwen2.5-coder:7b"
   },
   {
     id: "system",

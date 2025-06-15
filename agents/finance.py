@@ -8,7 +8,7 @@ from .settings import get_model
 
 finance_agent = Agent(
     name="FinanceAgent",
-    model=get_model(),
+    model=get_model("qwen3:8b"),
     tools=[YFinanceTools(
         stock_price=True,
         analyst_recommendations=True,

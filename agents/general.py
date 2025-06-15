@@ -7,7 +7,7 @@ from .settings import get_model
 
 general_agent = Agent(
     name="GeneralAgent",
-    model=get_model(),
+    model=get_model("qwen3:8b"),
     instructions=[
         "Tu es un assistant général intelligent et serviable.",
         "Réponds aux questions de culture générale avec précision.",

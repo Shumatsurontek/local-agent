@@ -8,7 +8,7 @@ from .settings import get_model
 
 code_agent = Agent(
     name="CodeAgent",
-    model=get_model("llama3.2:latest"),
+    model=get_model("qwen2.5-coder:7b"),
     tools=[PythonTools()],
     instructions=[
         "Tu es un expert en programmation qui DOIT utiliser Python pour résoudre les problèmes.",
@@ -23,6 +23,5 @@ code_agent = Agent(
     ],
     markdown=True,
     show_tool_calls=True,
-    debug_mode=True,
     description="Expert en programmation et calculs"
 ) 
