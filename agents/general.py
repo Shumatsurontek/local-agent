@@ -16,6 +16,7 @@ general_agent = Agent(
         "Sois concis mais complet dans tes réponses."
     ],
     markdown=True,
+    reasoning=False,
     show_tool_calls=True,
     description="Assistant général pour les conversations et tâches basiques"
 ) 

@@ -7,7 +7,11 @@ Starts the API, UI, or both services
 import sys
 import argparse
 import logging
+from dotenv import load_dotenv
 from workspace.dev_resources import serve_api, serve_ui, serve_both
+
+# Load environment variables from .env file
+load_dotenv()
 
 def setup_logging():
     """Configure logging"""

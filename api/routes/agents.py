@@ -12,6 +12,8 @@ from api.websocket import manager
 import logging
 import time
 import json
+import re
+import asyncio
 
 # Create specific loggers
 logger = logging.getLogger(__name__)
@@ -226,6 +228,16 @@ async def run_agent_with_tracking(agent, agent_id, message):
         # This is where the actual Ollama call happens
         response = agent.run(message)
         
+        # Filter think tags if reasoning is disabled
+        if hasattr(response, 'content') and hasattr(agent, 'reasoning') and not agent.reasoning:
+            original_content = response.content
+            filtered_content = filter_think_tags(original_content)
+            
+            # Only log if content was actually filtered
+            if filtered_content != original_content:
+                ollama_logger.debug(f"🧹 Filtered think tags from response (reasoning=False)")
+                response.content = filtered_content
+        
         # Log response details
         if hasattr(response, 'content'):
             ollama_logger.debug(f"📊 Response type: {type(response).__name__}")
@@ -235,3 +247,18 @@ async def run_agent_with_tracking(agent, agent_id, message):
     except Exception as e:
         ollama_logger.error(f"💥 Agent execution failed: {str(e)}")
         raise 
+
+def filter_think_tags(content: str) -> str:
+    """Remove <think> and </think> tags and their content from the response"""
+    # Remove everything between <think> and </think> tags (case insensitive)
+    pattern = r'<think>.*?</think>'
+    filtered_content = re.sub(pattern, '', content, flags=re.DOTALL | re.IGNORECASE)
+    
+    # Also remove standalone <think> or </think> tags if any
+    filtered_content = re.sub(r'</?think>', '', filtered_content, flags=re.IGNORECASE)
+    
+    # Clean up extra whitespace that might be left
+    filtered_content = re.sub(r'\n\s*\n', '\n\n', filtered_content)
+    filtered_content = filtered_content.strip()
+    
+    return filtered_content 

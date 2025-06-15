@@ -19,6 +19,7 @@ system_agent = Agent(
         "Vérifie les permissions et la sécurité avant d'agir."
     ],
     markdown=True,
+    reasoning=False,
     show_tool_calls=True,
     description="Administrateur système expert"
 ) 
