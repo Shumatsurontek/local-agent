@@ -22,6 +22,7 @@ code_agent = Agent(
         "Exemple: Pour 'fonction fibonacci', écris et exécute le code Python."
     ],
     markdown=True,
+    reasoning=False,
     show_tool_calls=True,
     description="Expert en programmation et calculs"
 ) 

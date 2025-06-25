@@ -27,6 +27,7 @@ finance_agent = Agent(
         "Présente les résultats de manière claire et structurée."
     ],
     markdown=True,
+    reasoning=False,
     show_tool_calls=True,
     description="Analyste financier expert"
 ) 
