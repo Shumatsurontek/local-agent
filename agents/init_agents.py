@@ -7,6 +7,7 @@ from agents.search import search_agent
 from agents.finance import finance_agent
 from agents.code import code_agent
 from agents.system import system_agent
+from agents.whatsapp import whatsapp_agent
 from agents.middleware import register_agent, track_agent_activity
 from teams.collaborative_team import collaborative_team
 import logging
@@ -71,6 +72,15 @@ def init_agents():
             "finance",
             "general"
         ]
+    }) 
+
+    # Register WhatsApp Agent
+    register_agent("whatsapp", {
+        "name": whatsapp_agent.name,
+        "description": whatsapp_agent.description,
+        "model": getattr(whatsapp_agent.model, "id", "unknown"),
+        "type": "whatsapp",
+        "tools": [t.__class__.__name__ for t in whatsapp_agent.tools] if hasattr(whatsapp_agent, "tools") and whatsapp_agent.tools else []
     })
     
     logger.info("All agents registered with WebSocket manager")

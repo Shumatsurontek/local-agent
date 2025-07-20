@@ -5,7 +5,7 @@ Agent routes for the API
 from fastapi import APIRouter, HTTPException, BackgroundTasks
 from pydantic import BaseModel
 from typing import Dict, Any, List
-from agents import general_agent, search_agent, finance_agent, code_agent, system_agent
+from agents import general_agent, search_agent, finance_agent, code_agent, system_agent, whatsapp_agent
 from teams import collaborative_team
 from agents.middleware import track_agent_activity
 from api.websocket import manager
@@ -29,7 +29,8 @@ AGENTS = {
     "finance": finance_agent,
     "code": code_agent,
     "system": system_agent,
-    "research_team": collaborative_team
+    "research_team": collaborative_team,
+    "whatsapp": whatsapp_agent
 }
 
 class ChatRequest(BaseModel):

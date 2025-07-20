@@ -106,6 +106,19 @@ const agents = [
     stats: "Search + Finance + General",
     model: "team"
   },
+  {
+    id: "whatsapp",
+    name: "Agent WhatsApp",
+    description: "Agent spécialisé pour la gestion de conversations WhatsApp et la recherche contextuelle",
+    icon: MessageSquare, // ou une autre icône Lucide
+    color: "bg-gradient-to-br from-teal-500 to-green-500",
+    hoverColor: "hover:from-teal-600 hover:to-green-600",
+    badge: "WhatsApp",
+    badgeColor: "bg-teal-50 text-teal-700 border-teal-200",
+    features: ["RAG", "Mémoire utilisateur", "Recherche hybride", "WhatsApp"],
+    stats: "Modèle: Mistral (Ollama local)",
+    model: "mistral:latest"
+  },
 ]
 
 const features = [
